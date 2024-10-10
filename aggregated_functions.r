@@ -228,7 +228,7 @@ fit_aggregate <- function(Y, X, CB = NULL, name_exposure = NULL,
             # Try to find convergence if V is not positive definite. Try try_iter times
             try_iter <- 1
             
-            while ( (!is.positive.semi.definite(V)) & (try_iter<=ntry))  {
+            while ( error_code == 0 & (try_iter<=ntry))  {
               # refit (different random seed can fix stopping at a saddle point)
               
               if (is.null(start)) {
@@ -256,7 +256,15 @@ fit_aggregate <- function(Y, X, CB = NULL, name_exposure = NULL,
                 
                 beta <- coef(mle)
                 V <- vcov(mle)
-                
+
+                if (is.infinite(max(V))) {
+                  error_code <- -555
+                } else {
+                  if (!is.positive.definite(V)) {
+                    if (is.positive.semi.definite(V)) (error_code <- -777) else (error_code <- -666)
+                  }
+                }
+
               }
               try_iter <- try_iter + 1
               
