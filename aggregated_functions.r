@@ -1,6 +1,6 @@
 # Written by Xavier Basagaña
-# Version 0.26
-#  2024/10/04
+# Version 0.27
+#  2024/10/10
 
 # Declaring Libraries
 suppressMessages( library(dlnm) );
